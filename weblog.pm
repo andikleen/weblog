@@ -1,4 +1,3 @@
-# TBD: prettify useragent
 package weblog;
 
 our $ip;
