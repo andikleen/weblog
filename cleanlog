@@ -1,6 +1,0 @@
-#!/bin/sh
-# remove search machine crawls from a http logfile
-# bugs: when a crawl crosses a log file rotate it misses
-
-webresolveip "$@"  | removecrawl | egrep -v 'favicon.ico'
-

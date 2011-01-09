@@ -1,5 +1,7 @@
 #!/usr/bin/perl -n  -w
-
+# print errors from a weblog
+use FindBin qw($Bin);
+use lib "$Bin";
 use weblog;
 
 weblog::parse_weblog();

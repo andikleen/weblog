@@ -1,7 +1,11 @@
-#!/usr/bin/perl -n  -w
+#!/usr/bin/perl -w
 # print user agents from a log
-
+use FindBin qw($Bin);
+use lib "$Bin";
 use weblog;
-weblog::parse_weblog();
-print $weblog::useragent,"\n";
+
+while (<>) { 
+	weblog::parse_weblog();
+	print $weblog::useragent,"\n";
+}
 

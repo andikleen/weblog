@@ -5,6 +5,8 @@
 # -n list numeric ips in front
 # -c add search engine domain name at the end
 # -u print target
+use FindBin qw($Bin);
+use lib "$Bin";
 use weblog;
 use Getopt::Std;
 our($opt_n);

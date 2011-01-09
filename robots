@@ -1,5 +1,7 @@
 #!/usr/bin/perl -n -w
 # display search engines
+use FindBin qw($Bin);
+use lib "$Bin";
 use weblog;
 
 weblog::parse_weblog();

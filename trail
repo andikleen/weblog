@@ -1,7 +1,8 @@
 #!/usr/bin/perl  
 # TBD do useful analysis
 # TBD fix -w
-
+use FindBin qw($Bin);
+use lib "$Bin";
 use weblog;
 
 while (<>) { 
