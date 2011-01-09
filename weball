@@ -8,12 +8,16 @@ N=${N:-10}
 for i in "$@" ; do
 	echo "Analysis of $(basename $i)"
 	echo
+	echo -n "Time: "
+	webtimerange $i 
 	echo -n "Hits total: "
 	tophits $i | awk ' { n += $1 } ; END { print n }'
 	echo -n "Visitor hits total: "
 	removecrawl $i | tophits | awk ' { n += $1 } ; END { print n }'
 	echo -n "Visitors (IP): "
 	removecrawl $i | trail | wc -l 
+	echo -n "Bytes delivered total: "
+	webbytes $i
 	echo
 	echo "Hits:"
 	tophits $i | head -$N

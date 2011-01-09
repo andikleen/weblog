@@ -1,0 +1,15 @@
+#!/usr/bin/perl -w 
+
+use weblog;
+
+$_ = <>;
+weblog::parse_weblog();
+$first = $weblog::date;
+
+while (<>) {
+	$n = $_;
+}
+
+$_ = $n;
+weblog::parse_weblog();
+print "$first - $weblog::date\n";

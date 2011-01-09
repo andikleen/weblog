@@ -1,0 +1,11 @@
+#!/usr/bin/perl -w 
+
+use weblog;
+
+my $bytes = 0;
+while (<>) { 
+	weblog::parse_weblog();
+	$bytes += $weblog::bytes if $weblog::bytes ne "-";
+}
+print $bytes,"\n";
+
