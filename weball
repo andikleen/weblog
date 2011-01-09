@@ -1,6 +1,7 @@
 #!/bin/sh
 # TBD dns domain statistics
 # time statistics
+# rewrite it all into a single pass over the log with a database
 
 N=${N:-10}
 

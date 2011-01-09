@@ -5,7 +5,7 @@
 # -n list numeric ips in front
 # -c add search engine domain name at the end
 # -u print target
-
+use weblog;
 use Getopt::Std;
 our($opt_n);
 our($opt_c);
@@ -18,11 +18,10 @@ getopts('ncu') or die
 
 while (<>) {
 
-my ($ip, $req, $ref, $client);
-($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
-($ip) = /(\d+\.\d+\.\d+\.\d+)/;
+	weblog::parse_weblog();
 
-next unless defined($ref);
+next unless defined($weblog::referer);
+my $ref = $weblog::referer;
 next if $ref eq "-";
 
 if (($ref =~ m#(google\.[^/]+)/.*/?search#) || 
@@ -57,9 +56,9 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 	$q =~ s/\&.*//;
 	$q =~ s/\+/ /g;
 	$q =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
-	printf "%16s ", $ip if $::opt_n;
+	printf "%16s ", $weblog::ip if $::opt_n;
 	if ($::opt_u) { 
-		my ($cmd, $url, $http) = split(/ /, $req);
+		my ($cmd, $url, $http) = split(/ /, $weblog::req);
 		printf("%-20s ", $url);
 	}
 	printf "%-14s ", $co if $::opt_c && defined($co);

@@ -1,16 +1,16 @@
 #!/usr/bin/perl -w
 #print referer from a httpd access log 
-
+use weblog;
 use Getopt::Std;
 our($opt_n);
-our($opt_a);
 our($opt_u);
-getopts('nau') or die "unknown option\n";
+getopts('nu') or die "unknown option\n";
 
 while (<>) { 
 	my ($req, $ref, $client, $ip);
-	($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
-	next unless defined($ref);
+	weblog::parse_weblog();
+	next unless defined($weblog::referer);
+	$ref = $weblog::referer;
 	next if $ref eq "-";
 	#next if $ref =~ /www\.google\..*\/search.*q=/;
 	#next if $ref =~ /search\.msn\.com.*q=/;
@@ -19,13 +19,11 @@ while (<>) {
 	#next if $ref =~ /www\.ask\.com\/web/;
 	#next if $ref =~ /www\.BigFinder\.de/;
 	if ($opt_n) { 
-		($ip) = /(\d+\.\d+\.\d+\.\d+)/;
-		printf "%-18s ", $ip;
+		printf "%-18s ", $weblog::ip;
 	}
 	if ($opt_u) { 
-		my ($cmd, $url, $http) = split(/ /, $req);
+		my ($cmd, $url, $http) = split(/ /, $weblog::req);
 		printf("%-20s ", $url);
 	}
-	printf("%-20s ", $client) if $opt_a;
 	print $ref,"\n";
 }

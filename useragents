@@ -1,9 +1,7 @@
 #!/usr/bin/perl -n  -w
 # print user agents from a log
 
-
-my ($ip,$b,$c,$date,$req,$num1,$num2,$d,$user) = 
-	/([0-9.]+) (\S+) (\S+) \[(.*?)\] "(.*?)" (\d+) (\S+) "(.*?)" "(.*?)"/;
-
-print "$user\n";
+use weblog;
+weblog::parse_weblog();
+print $weblog::user,"\n";
 

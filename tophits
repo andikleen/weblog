@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
+use weblog;
 
 %hits = ();
 
 while (<>) { 
-	my ($req, $ref, $client, $ip);
-	($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
-	my ($cmd, $url, $http) = split(/ /, $req);
+	weblog::parse_weblog();
+	my ($cmd, $url, $http) = split(/ /, $weblog::req);
 	$hits{$url}++;
 }
 

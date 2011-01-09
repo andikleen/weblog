@@ -1,15 +1,16 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl  
 # TBD do useful analysis
 # TBD fix -w
 
+use weblog;
+
 while (<>) { 
-	($ip, $a, $b, $date, $req, $c, $d, $c, $ua) = 
-		/^(\d+\.\d+\.\d+\.\d+) (.) (.) \[([^]]+)\] "([^"]*)" (\d+) (\S+) "([^"]*)" "([^"]*)"/;
+	weblog::parse_weblog();
 
-	$ips{$ip}++;
-	$ua{$ip} = $ua;	# xxx append
+	$ips{$weblog::ip}++;
+	$ua{$weblog::ip} = $weblog::useragent;	# xxx append
 
-	($url) = ($req =~ /GET (\S+)/);
+	($url) = ($weblog::req =~ /GET (\S+)/);
 	$urls{$url}++;
 } 
 

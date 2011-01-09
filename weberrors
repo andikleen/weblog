@@ -1,11 +1,9 @@
 #!/usr/bin/perl -n  -w
 
+use weblog;
 
-my ($ip,$b,$c,$date,$req,$num1,$num2,$d,$user) = 
-	/([0-9.]+) (\S+) (\S+) \[(.*?)\] "(.*?)" (\d+) (\S+) "(.*?)" "(.*?)"/;
-
-
-if ($num1 != 200) {
-	$req =~ s/\s+HTTP\/\d+\.\d+$//;
-	print "$req $num1\n"
+weblog::parse_weblog();
+if ($weblog::status != 200) {
+	$weblog::req =~ s/\s+HTTP\/\d+\.\d+$//;
+	print "$weblog::req $weblog::status\n"
 }

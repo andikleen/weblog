@@ -1,12 +1,12 @@
 #!/usr/bin/perl -n -w
 # display search engines
+use weblog;
 
-my ($req, $ref, $client);
-($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
-next unless ($req =~ /robots\.txt/);
-if ($client eq "-") { 
-	print "$ref\n";
+weblog::parse_weblog();
+next unless ($weblog::req =~ /robots\.txt/);
+if ($weblog::useragent eq "-") { 
+	print "$weblog::referer\n";
 } else { 
-	print "$client\n";
+	print "$weblog::useragent\n";
 }
 
