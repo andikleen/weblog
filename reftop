@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DOMAINS="halobates|google"
+
+referer "$@" | egrep -v "$DOMAINS" | sort | uniq -c | sort -rn

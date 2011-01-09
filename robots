@@ -1,0 +1,12 @@
+#!/usr/bin/perl -n -w
+# display search engines
+
+my ($req, $ref, $client);
+($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
+next unless ($req =~ /robots\.txt/);
+if ($client eq "-") { 
+	print "$ref\n";
+} else { 
+	print "$client\n";
+}
+

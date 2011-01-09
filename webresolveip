@@ -1,0 +1,24 @@
+#!/usr/bin/perl  -w
+# resolve all ipv4 ips in input
+use Socket;
+
+%cache = ();
+
+sub lookup($$$$) { 
+	my($a,$b,$c,$d) = (@_);
+	my $addr = inet_aton("$a.$b.$c.$d");
+
+	return $cache{$addr} if (defined($cache{$addr}));
+	my $name;
+	unless ($name = gethostbyaddr($addr, AF_INET)) {
+		 $name = "$a.$b.$c.$d";
+	}
+	$cache{$addr} = $name;
+	return $name;
+} 
+
+while (<>) { 
+	s/(\d+)\.(\d+)\.(\d+)\.(\d+)/&lookup($1,$2,$3,$4)/eg;
+	print;
+} 
+

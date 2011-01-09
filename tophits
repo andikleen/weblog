@@ -1,0 +1,14 @@
+#!/usr/bin/perl -w
+
+%hits = ();
+
+while (<>) { 
+	my ($req, $ref, $client, $ip);
+	($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
+	my ($cmd, $url, $http) = split(/ /, $req);
+	$hits{$url}++;
+}
+
+foreach $i (sort { $hits{$b} <=> $hits{$a} } keys %hits) { 
+	printf "%4d %s\n", $hits{$i}, $i;
+}

@@ -1,0 +1,13 @@
+#!/usr/bin/perl -n -w
+# remove search machine crawls from a http logfile
+# bugs: when a crawl crosses a log file rotate it misses
+
+@n = split;
+if (/GET .robots.txt/) { 
+	$skip{$n[0]} = 1;
+	next;
+}
+if (defined($skip{$n[0]})) {
+	next;
+}
+print;

@@ -1,0 +1,43 @@
+#!/bin/sh
+# TBD dns domain statistics
+# time statistics
+
+N=${N:-10}
+
+for i in "$@" ; do
+	echo "Analysis of $(basename $i)"
+	echo
+	echo -n "Hits total: "
+	tophits $i | awk ' { n += $1 } ; END { print n }'
+	echo -n "Visitor hits total: "
+	removecrawl $i | tophits | awk ' { n += $1 } ; END { print n }'
+	echo -n "Visitors (IP): "
+	removecrawl $i | trail | wc -l 
+	echo
+	echo "Hits:"
+	tophits $i | head -$N
+	echo
+	echo "Referer: "
+	reftop $i  | head -$N
+	echo
+	echo "Longest visitors:"
+	removecrawl $i | trail | sort -rn | head -$N | webresolveip
+	echo
+	echo "Errors:"
+	weberrors $i | sort | uniq -c | sort -rn | head -$N
+	echo 
+	echo "Robots:"
+	robots $i | sort | uniq -c | sort -rn | head -$N
+	echo
+	echo "User agents:"
+	useragents $i | sort | uniq -c | sort -rn | head -$N
+	echo
+	echo "Search engine domains:"
+	searchterms -c $i | awk ' { print $1 }' | sort | uniq -c | sort -rn | head -$N
+	echo
+	echo "Search engine targets:"
+	searchterms -u $i | awk ' { print $1 }' | sort | uniq -c | sort -rn | head -$N
+	echo
+	echo "Searchterms:"
+	searchterms $i | sort | uniq -c | sort -rn
+done

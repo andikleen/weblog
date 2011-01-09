@@ -1,0 +1,11 @@
+#!/usr/bin/perl -n  -w
+
+
+my ($ip,$b,$c,$date,$req,$num1,$num2,$d,$user) = 
+	/([0-9.]+) (\S+) (\S+) \[(.*?)\] "(.*?)" (\d+) (\S+) "(.*?)" "(.*?)"/;
+
+
+if ($num1 != 200) {
+	$req =~ s/\s+HTTP\/\d+\.\d+$//;
+	print "$req $num1\n"
+}

@@ -1,0 +1,69 @@
+#!/usr/bin/perl -w 
+# extract search engine search terms from a http log
+# referer logging needs to be enabled
+# options:
+# -n list numeric ips in front
+# -c add search engine domain name at the end
+# -u print target
+
+use Getopt::Std;
+our($opt_n);
+our($opt_c);
+our($opt_u);
+getopts('ncu') or die
+"usage: $0 [-n] [-c] logfile
+ -u print target
+ -n list numeric IPs
+ -c list search engine domain\n";
+
+while (<>) {
+
+my ($ip, $req, $ref, $client);
+($req, $ref, $client) = /"([^"]*)" \S+ \S+ "([^"]*)" "([^"]*)"/;
+($ip) = /(\d+\.\d+\.\d+\.\d+)/;
+
+next unless defined($ref);
+next if $ref eq "-";
+
+if (($ref =~ m#(google\.[^/]+)/.*/?search#) || 
+    ($ref =~ m#(google\.[^/]+)/.*/?scholar#) ||
+    ($ref =~ m#(google\.[^/]+)/.*q=#) ||
+    ($ref =~ /\.(baidu\.com)\/s/) ||
+    ($ref =~ /\.(msn\.com)\/search/) ||
+    ($ref =~ /\.(live\.com)\/search/) ||
+    ($ref =~ /\.(bing\.com)\/search/) ||
+    ($ref =~ m#\.(yahoo\.[^/]+)/.*/?search#) ||
+    ($ref =~ /\.(ask\.com)\/web/)) {
+	$co = $1;
+	if ($ref =~ /translate\.google.*prev=(.*)/) { 
+		$t = $1;
+		$t =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
+		$t =~ s/^\/search\?q=//;
+		$q = $t;
+	} elsif (($ref =~ /as_epq=(.*)/) ||
+		 ($ref =~ /[^a-z]q=(.*)$/)) { 
+		$q = $1;
+	} elsif ($ref =~ /p=(.*)$/) { 
+		$q = $1;
+	} elsif ($ref =~ /wd=(.*)$/) {
+		$q = $1;
+		$q =~ s/\&.*//;
+		$q .= " $1" if /bs=(.*)$/;
+		
+	} else { 
+		print "cannot parse search string \"$ref\"\n";
+		next;
+	}
+	$q =~ s/\&.*//;
+	$q =~ s/\+/ /g;
+	$q =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
+	printf "%16s ", $ip if $::opt_n;
+	if ($::opt_u) { 
+		my ($cmd, $url, $http) = split(/ /, $req);
+		printf("%-20s ", $url);
+	}
+	printf "%-14s ", $co if $::opt_c && defined($co);
+	print $q,"\n";
+} 
+
+}

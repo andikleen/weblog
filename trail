@@ -1,0 +1,21 @@
+#!/usr/bin/perl 
+# TBD do useful analysis
+# TBD fix -w
+
+while (<>) { 
+	($ip, $a, $b, $date, $req, $c, $d, $c, $ua) = 
+		/^(\d+\.\d+\.\d+\.\d+) (.) (.) \[([^]]+)\] "([^"]*)" (\d+) (\S+) "([^"]*)" "([^"]*)"/;
+
+	$ips{$ip}++;
+	$ua{$ip} = $ua;	# xxx append
+
+	($url) = ($req =~ /GET (\S+)/);
+	$urls{$url}++;
+} 
+
+# print "IPs:\n";
+foreach $ip (keys(%ips)) { 
+	printf "%5d $ip $ua\n", $ips{$ip};
+} 
+
+

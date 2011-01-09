@@ -1,0 +1,7 @@
+#!/usr/bin/awk -f 
+
+	{ s[$0]++ }
+END 	{ for (i in s) { 
+		print s[i],i;
+	  }
+	}
