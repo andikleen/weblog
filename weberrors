@@ -3,7 +3,7 @@
 use weblog;
 
 weblog::parse_weblog();
-if ($weblog::status != 200) {
+if ($weblog::status < 200 || $weblog::status > 399) {
 	$weblog::req =~ s/\s+HTTP\/\d+\.\d+$//;
 	print "$weblog::req $weblog::status\n"
 }
