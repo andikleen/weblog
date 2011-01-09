@@ -7,5 +7,17 @@ while (<>) {
 	weblog::parse_weblog();
 	$bytes += $weblog::bytes if $weblog::bytes ne "-";
 }
-print $bytes,"\n";
+
+$units = "MK";
+$u = 1024*1024;
+$k = 0;
+while ($u >= 1024) { 
+	if ($bytes >= $u) {
+		printf "%d%s ", $bytes / $u, substr($units,$k,1);
+	}
+	$bytes %= $u;
+	$u /= 1024;
+	$k++;
+}
+printf "%dbytes\n", $bytes;
 

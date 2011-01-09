@@ -16,7 +16,7 @@ while (<>) {
 
 # print "IPs:\n";
 foreach $ip (keys(%ips)) { 
-	printf "%5d $ip $ua\n", $ips{$ip};
+	printf "%7d $ip $ua\n", $ips{$ip};
 } 
 
 
