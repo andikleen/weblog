@@ -6,6 +6,7 @@ use weblog;
 
 while (<>) { 
 	weblog::parse_weblog();
+	weblog::clean_useragent();
 	print $weblog::useragent,"\n";
 }
 

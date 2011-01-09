@@ -1,23 +1,23 @@
-#!/usr/bin/perl  
-# TBD do useful analysis
-# TBD fix -w
+#!/usr/bin/perl   -w
+# XXX track time, filter multiple hits on pdf
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;
 
+%visitors = ();
+
 while (<>) { 
 	weblog::parse_weblog();
+	weblog::clean_useragent();
 
-	$ips{$weblog::ip}++;
-	$ua{$weblog::ip} = $weblog::useragent;	# xxx append
+	$v = $weblog::ip . " " . $weblog::useragent;
+	#($url) = ($weblog::req =~ /\S+ (\S+)/);
 
-	($url) = ($weblog::req =~ /GET (\S+)/);
-	$urls{$url}++;
+	$visitors{$v}++;
 } 
 
-# print "IPs:\n";
-foreach $ip (keys(%ips)) { 
-	printf "%7d $ip $ua\n", $ips{$ip};
+foreach $v (keys(%visitors)) { 
+	printf "%7d $v\n", $visitors{$v};
 } 
 
 

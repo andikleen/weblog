@@ -16,4 +16,8 @@ sub parse_weblog () {
         /([0-9.]+) (\S+) (\S+) \[(.*?)\] "(.*?)" (\d+) (\S+) "(.*?)" "(.*?)"/;
 }
 
+sub clean_useragent () { 
+	$useragent =~ s#Mozilla/\d\.\d \((compatible; )?(.+)\)#$2#; 
+}
+
 1;

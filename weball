@@ -14,7 +14,7 @@ for i in "$@" ; do
 	tophits $i | awk ' { n += $1 } ; END { print n }'
 	printf "%23s" "Visitor hits total: "
 	removecrawl $i | tophits | awk ' { n += $1 } ; END { print n }'
-	printf "%23s" "Visitors (IP): "
+	printf "%23s" "Visitors: "
 	removecrawl $i | trail | wc -l 
 	printf "%23s" "Bytes delivered total: "
 	webbytes $i
@@ -23,7 +23,7 @@ for i in "$@" ; do
 	tophits $i | head -$N
 	echo
 	echo "Referer: "
-	reftop $i  | head -$N
+	referer $i  | sort | uniq -c | sort -rn | head -$N
 	echo
 	echo "Longest visitors:"
 	removecrawl $i | trail | sort -rn | head -$N | webresolveip
