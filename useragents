@@ -3,5 +3,5 @@
 
 use weblog;
 weblog::parse_weblog();
-print $weblog::user,"\n";
+print $weblog::useragent,"\n";
 
