@@ -16,7 +16,7 @@ sub parse_weblog () {
 }
 
 sub clean_useragent () { 
-	$useragent =~ s#Mozilla/\d\.\d \((compatible; )?(.+)\)#$2#; 
+	$useragent =~ s#Mozilla/\d\.\d \((compatible; )?(.+?)\)#$2#; 
 }
 
 1;

@@ -3,8 +3,11 @@
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;
+use Date::Parse;
 
 %visitors = ();
+%first = ();
+%last = ();
 
 while (<>) { 
 	weblog::parse_weblog();
@@ -13,11 +16,17 @@ while (<>) {
 	$v = $weblog::ip . " " . $weblog::useragent;
 	#($url) = ($weblog::req =~ /\S+ (\S+)/);
 
+	unless (defined($first{$v})) {
+		$first{$v} = $weblog::date;
+	}
+
 	$visitors{$v}++;
+	$last{$v} =  $weblog::date;
 } 
 
 foreach $v (keys(%visitors)) { 
-	printf "%7d $v\n", $visitors{$v};
+	printf "%7d $v %ds\n", $visitors{$v}, 
+		str2time($last{$v}) - str2time($first{$v});
 } 
 
 
