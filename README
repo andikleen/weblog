@@ -14,6 +14,12 @@ purposes.
 It uses multiple passes through the logs and will likely not scale
 to large logs. However it works quite well for moderate sized logs.
 
+searchterms may need occasional updates for the latest URLs generated
+by search engines
+
+To use add the directory to your $PATH
+export PATH=dir/webtools
+
 If you don't know how to use it just run weball <log>
 
 Tools:
