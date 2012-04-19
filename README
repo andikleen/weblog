@@ -27,8 +27,9 @@ searchterms log
 # referer logging needs to be enabled
 # options:
 # -n list numeric ips in front
-# -c add search engine domain name at the end
+# -c add search engine domain name
 # -u print target
+# -U print URLs typed into search engine
 
 referer log
 #print referer from a httpd access log 

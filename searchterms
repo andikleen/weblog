@@ -5,6 +5,7 @@
 # -n list numeric ips in front
 # -c add search engine domain name at the end
 # -u print target
+# -U print urls typed into search engine
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;
@@ -12,10 +13,12 @@ use Getopt::Std;
 our($opt_n);
 our($opt_c);
 our($opt_u);
-getopts('ncu') or die
+our($opt_U);
+getopts('ncuU') or die
 "usage: $0 [-n] [-c] logfile
  -u print target
  -n list numeric IPs
+ -U print urls typed into search engine
  -c list search engine domain\n";
 
 while (<>) {
@@ -41,8 +44,11 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 		$t =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
 		$t =~ s/^\/search\?q=//;
 		$q = $t;
+	} elsif ($ref =~ /&url=([^&]+)/) {
+		next unless $opt_U;
+		$q = $1;
 	} elsif (($ref =~ /as_epq=(.*)/) ||
-		 ($ref =~ /[^a-z]q=(.*)$/)) { 
+		 ($ref =~ /[^a-z]q=([^&]+)/)) { 
 		$q = $1;
 	} elsif ($ref =~ /p=(.*)$/) { 
 		$q = $1;
@@ -50,9 +56,8 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 		$q = $1;
 		$q =~ s/\&.*//;
 		$q .= " $1" if /bs=(.*)$/;
-		
 	} else { 
-		print "cannot parse search string \"$ref\"\n";
+		print STDERR "cannot parse search string \"$ref\"\n";
 		next;
 	}
 	$q =~ s/\&.*//;
