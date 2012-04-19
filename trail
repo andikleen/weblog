@@ -1,4 +1,5 @@
 #!/usr/bin/perl   -w
+# Identify individual visitors
 # XXX track time, filter multiple hits on pdf
 use FindBin qw($Bin);
 use lib "$Bin";

@@ -1,0 +1,63 @@
+Simple web log analysis tools
+
+Originally written long ago.
+
+Written for apache, but should work with all web servers generating 
+standard logs. This is a light weight alternative to more complex
+database based setups. The output is simple ASCII that 
+can be easily processed further in shell pipelines. They can be also
+combined for more complex tasks.
+
+One big advantage is simplicity, so can be easily adapted for specific
+purposes.
+
+It uses multiple passes through the logs and will likely not scale
+to large logs. However it works quite well for moderate sized logs.
+
+If you don't know how to use it just run weball <log>
+
+Tools:
+
+weball log
+# run all analyses on a log
+# somewhat slow for larger logs, because it does many passes
+
+searchterms log 
+# extract search engine search terms from a http log
+# referer logging needs to be enabled
+# options:
+# -n list numeric ips in front
+# -c add search engine domain name at the end
+# -u print target
+
+referer log
+#print referer from a httpd access log 
+
+removecrawl log
+# remove search machine crawls from a http logfile
+
+robots log
+# display search engines
+
+searchterms log | tophits
+# print top search terms
+
+trails log
+# Identify individual visitors
+
+useragents log
+# print user agents from a log
+
+webbytes log
+# print total bytes transferred
+
+weberrors log
+# print errors from a weblog
+
+webresolveip log
+# resolve hosts in a weblog
+
+webtimerange
+# print time range in a log
+
+Andi Kleen

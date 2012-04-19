@@ -1,5 +1,6 @@
 #!/usr/bin/perl -n  -w
 # print errors from a weblog
+# xxx sumarize
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;

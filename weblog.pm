@@ -1,4 +1,5 @@
 package weblog;
+# parse common web log format
 
 our $ip;
 our $ident;

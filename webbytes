@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w 
+# print total bytes transferred
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;
