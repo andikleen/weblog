@@ -46,8 +46,8 @@ removecrawl log
 robots log
 # display search engines
 
-searchterms log | tophits
-# print top search terms
+tophits log
+# print hits for pages
 
 trails log
 # Identify individual visitors
