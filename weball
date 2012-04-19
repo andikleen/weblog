@@ -5,6 +5,7 @@
 # rewrite it all into a single pass?
 
 N=${N:-10}
+export PATH=$(dirname $0):$PATH
 
 for i in "$@" ; do
 	echo "Analysis of $(basename $i)"
