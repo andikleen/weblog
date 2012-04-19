@@ -40,11 +40,13 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
     ($ref =~ /\.(live\.com)\/search/) ||
     ($ref =~ /\.(bing\.com)\/search/) ||
     ($ref =~ m#\.(yahoo\.[^/]+)/.*/?search#) ||
+    ($ref =~ m#(duckduckgo.com)/#) ||
     ($ref =~ /\.(ask\.com)\/web/)) {
+	$co = $1;
+
 	my $cd = 0;
 	$cd = $1 * 1 if $ref =~ /&cd=([0-9]+)/;
 
-	$co = $1;
 	if ($ref =~ /translate\.google.*prev=(.*)/) { 
 		$t = $1;
 		$t =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
@@ -59,11 +61,13 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 		$q = $1;
 		$q =~ s/\&.*//;
 		$q .= " $1" if ($ref =~ /bs=(.*)$/);
-	} elsif ($ref =~ /&url=([^&]+)/) {
+	} elsif ($ref =~ m#[&?]u(rl)?=([^&]+)#) {
 		next unless $opt_U;
-		$q = $1;
+		$q = $2;
+	} elsif ($ref eq "http://www.google.com/search") {
+		next;
 	} else { 
-		print STDERR "cannot parse search string \"$ref\"\n";
+		print STDERR "cannot parse search string \"$weblog::referer\" at $.\n";
 		next;
 	}
 	$q =~ s/\&.*//;

@@ -27,6 +27,8 @@ Tools:
 weball log
 # run all analyses on a log
 # somewhat slow for larger logs, because it does many passes
+N=NUM weball log 
+print NUM top entries
 
 searchterms log 
 # extract search engine search terms from a http log
