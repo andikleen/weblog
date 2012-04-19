@@ -51,8 +51,16 @@ useragents log
 webbytes log
 # print total bytes transferred
 
+accumulate [fieldnum]
+# accumulate on fieldnum field
+# default field 1
+For example to track countries of search engine
+searchterms -c log | accumulate
+
 weberrors log
 # print errors from a weblog
+To get top errors 
+weberrors log | accumulate 2  | head
 
 webresolveip log
 # resolve hosts in a weblog

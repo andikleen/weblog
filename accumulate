@@ -1,0 +1,5 @@
+#!/bin/sh
+# accumulate on first field
+FIELD=${1:-1}
+
+awk " {print \$$FIELD}" | sort | uniq -c | sort -rn
