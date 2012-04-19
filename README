@@ -36,6 +36,7 @@ searchterms log
 # -c add search engine domain name
 # -u print target
 # -U print URLs typed into search engine
+# -p print position in search engine results (or 0)
 
 referer log
 #print referer from a httpd access log 

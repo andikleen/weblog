@@ -6,6 +6,7 @@
 # -c add search engine domain name at the end
 # -u print target
 # -U print urls typed into search engine
+# -p print search result position if known (or 0)
 use FindBin qw($Bin);
 use lib "$Bin";
 use weblog;
@@ -14,11 +15,13 @@ our($opt_n);
 our($opt_c);
 our($opt_u);
 our($opt_U);
-getopts('ncuU') or die
-"usage: $0 [-n] [-c] logfile
+our($opt_p);
+getopts('ncuUp') or die
+"usage: $0 [opts] logfile
  -u print target
  -n list numeric IPs
  -U print urls typed into search engine
+ -p print search result position if known (or 0)
  -c list search engine domain\n";
 
 while (<>) {
@@ -38,15 +41,15 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
     ($ref =~ /\.(bing\.com)\/search/) ||
     ($ref =~ m#\.(yahoo\.[^/]+)/.*/?search#) ||
     ($ref =~ /\.(ask\.com)\/web/)) {
+	my $cd = 0;
+	$cd = $1 * 1 if $ref =~ /&cd=([0-9]+)/;
+
 	$co = $1;
 	if ($ref =~ /translate\.google.*prev=(.*)/) { 
 		$t = $1;
 		$t =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
 		$t =~ s/^\/search\?q=//;
 		$q = $t;
-	} elsif ($ref =~ /&url=([^&]+)/) {
-		next unless $opt_U;
-		$q = $1;
 	} elsif (($ref =~ /as_epq=(.*)/) ||
 		 ($ref =~ /[^a-z]q=([^&]+)/)) { 
 		$q = $1;
@@ -55,7 +58,10 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 	} elsif ($ref =~ /wd=(.*)$/) {
 		$q = $1;
 		$q =~ s/\&.*//;
-		$q .= " $1" if /bs=(.*)$/;
+		$q .= " $1" if ($ref =~ /bs=(.*)$/);
+	} elsif ($ref =~ /&url=([^&]+)/) {
+		next unless $opt_U;
+		$q = $1;
 	} else { 
 		print STDERR "cannot parse search string \"$ref\"\n";
 		next;
@@ -63,6 +69,8 @@ if (($ref =~ m#(google\.[^/]+)/.*/?search#) ||
 	$q =~ s/\&.*//;
 	$q =~ s/\+/ /g;
 	$q =~ s/%([0-9a-fA-F][0-9a-fA-F])/chr(hex($1))/eg;
+
+	printf "%-3d ", $cd if $::opt_p;
 	printf "%16s ", $weblog::ip if $::opt_n;
 	if ($::opt_u) { 
 		my ($cmd, $url, $http) = split(/ /, $weblog::req);
