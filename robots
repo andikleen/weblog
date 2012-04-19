@@ -9,6 +9,7 @@ next unless ($weblog::req =~ /robots\.txt/);
 if ($weblog::useragent eq "-") { 
 	print "$weblog::referer\n";
 } else { 
+	weblog::clean_useragent();
 	print "$weblog::useragent\n";
 }
 

@@ -8,7 +8,7 @@ use weblog;
 while (<>) { 
 	weblog::parse_weblog();
 	my ($cmd, $url, $http) = split(/ /, $weblog::req);
-	$hits{$url}++;
+	$hits{$url}++ if defined $url;
 }
 
 foreach $i (sort { $hits{$b} <=> $hits{$a} } keys %hits) { 
