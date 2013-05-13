@@ -1,3 +1,5 @@
+![weblog] (http://halobates.de/weblog)
+
 Simple web log analysis tools
 
 Originally written long ago.
