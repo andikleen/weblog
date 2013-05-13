@@ -30,58 +30,58 @@ Dependencies: Perl-TimeDate
 
 Tools:
 
-weball log
-# run all analyses on a log
-# somewhat slow for larger logs, because it does many passes
+## weball log
+run all analyses on a log
+somewhat slow for larger logs, because it does many passes
 N=NUM weball log 
 print NUM top entries
 
-searchterms log 
-# extract search engine search terms from a http log
-# referer logging needs to be enabled
-# options:
-# -n list numeric ips in front
-# -c add search engine domain name
-# -u print target
-# -U print URLs typed into search engine
-# -p print position in search engine results (or 0)
+## searchterms log 
+extract search engine search terms from a http log
+referer logging needs to be enabled
+options:
+-n list numeric ips in front
+-c add search engine domain name
+-u print target
+-U print URLs typed into search engine
+-p print position in search engine results (or 0)
 
-referer log
-#print referer from a httpd access log 
+## referer log
+print referer from a httpd access log 
 
-removecrawl log
-# remove search machine crawls from a http logfile
+## removecrawl log
+remove search machine crawls from a http logfile
 
-robots log
-# display search engines
+## robots log
+display search engines
 
-tophits log
-# print hits for pages
+## tophits log
+print hits for pages
 
-trails log
-# Identify individual visitors
+## trails log
+Identify individual visitors
 
-useragents log
-# print user agents from a log
+## useragents log
+print user agents from a log
 
-webbytes log
-# print total bytes transferred
+## webbytes log
+print total bytes transferred
 
-accumulate [fieldnum]
-# accumulate on fieldnum field
-# default field 1
+## accumulate [fieldnum]
+accumulate on fieldnum field
+default field 1
 For example to track countries of search engine
 searchterms -c log | accumulate
 
-weberrors log
-# print errors from a weblog
+## weberrors log
+print errors from a weblog
 To get top errors 
 weberrors log | accumulate 2  | head
 
-webresolveip log
-# resolve hosts in a weblog
+## webresolveip log
+resolve hosts in a weblog
 
-webtimerange
-# print time range in a log
+## webtimerange
+print time range in a log
 
 Andi Kleen
